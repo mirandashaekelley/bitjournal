@@ -2,22 +2,59 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Alert, Button, TouchableOpacity} from 'react-native';
 import { useController, useForm } from 'react-hook-form';
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import moment from 'moment';
+
+//npm i {important to download or it won't work}
 //react-hook-form
 //expo install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
+//npm install @react-navigation/native @react-navigation/stack
+const Stack = createStackNavigator();
 
 
 export default function App() {
   return (
+    <NavigationContainer>
     <View style={styles.container}>
-      <View style={styles.journal}>
-        <Text style={{color:'white', fontSize: 40, marginTop: -100}}>bitjournal</Text>
-        <Form/>
-      <StatusBar style="auto" />
-      </View>
+      //Comment out pages to see
+      <FrontPage/>
+     {/* <NavigationPage/> */}
       
     </View>
+    </NavigationContainer>
   );
 }
+const FrontPage = () => {
+  return(
+  
+  <View style={styles.journal}>
+  <Text style={{color:'white', fontSize: 40, marginTop: -100}}>bitjournal</Text>
+  <Form/>
+  <StatusBar style="auto" />
+  </View>
+  );
+  
+}
+const NavigationPage = () => {
+  let currentDay = moment().format('dddd');
+  currentDay = currentDay.toLowerCase();
+  let currentDate = moment().format('ll');
+  currentDate = currentDate.toLowerCase();
+  return(
+  <View style={styles.navigation}>
+  <Text style={{color:'white', fontSize: 25,marginTop: 20}}>good afternoon, neumont</Text>
+  <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>{currentDay}, </Text>
+  <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>{currentDate}</Text>
+  
+  
+  <StatusBar style="auto" />
+  </View>
+  );
+  
+}
+
 
  const Input = ({name, control}) => {
    const {field} = useController({
@@ -69,6 +106,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent:'center',
     
+  },
+  navigationContainer:{
+
+  },
+  navigation:{
+    height:700,
+    width: 350,
+    backgroundColor: '#9AD1FE',
+    borderRadius: 15,
+    display: 'flex',
+    alignItems: 'center'
+  
   },
   loginform:{
     marginTop:30,
