@@ -18,9 +18,7 @@ export default function App() {
   return (
     <NavigationContainer>
     <View style={styles.container}>
-      //Comment out pages to see
       <FrontPage/>
-     {/* <NavigationPage/> */}
       
     </View>
     </NavigationContainer>
