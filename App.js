@@ -8,9 +8,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import moment from 'moment';
 
 //npm i {important to download or it won't work}
-//react-hook-form
+//install react-hook-form
 //expo install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
 //npm install @react-navigation/native @react-navigation/stack
+//https://swapi.dev/api/
 const Stack = createStackNavigator();
 
 
@@ -35,26 +36,7 @@ const FrontPage = () => {
   );
   
 }
-const NavigationPage = () => {
-  let currentDay = moment().format('dddd');
-  currentDay = currentDay.toLowerCase();
-  let currentDate = moment().format('ll');
-  currentDate = currentDate.toLowerCase();
-  return(
-  <View style={styles.navigation}>
-  <Text style={{color:'white', fontSize: 25,marginTop: 20}}>good afternoon, neumont</Text>
-  <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>{currentDay}, </Text>
-  <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>{currentDate}</Text>
-  
-  
-  <StatusBar style="auto" />
-  </View>
-  );
-  
-}
-
-
- const Input = ({name, control}) => {
+const Input = ({name, control}) => {
    const {field} = useController({
       control,
       defaultValue: '',
@@ -64,7 +46,6 @@ const NavigationPage = () => {
      <TextInput value ={field.value} onChangeText={field.onChange} style={styles.input}/>
    );
  };
-
  function Form() {
   const {control, handleSubmit} = useForm();
   const onSubmit = (data) => Alert.alert
@@ -87,6 +68,71 @@ const NavigationPage = () => {
   );
 }
 
+const NavigationPage = () => {
+  let currentDay = moment().format('dddd');
+  currentDay = currentDay.toLowerCase();
+  let currentDate = moment().format('ll');
+  currentDate = currentDate.toLowerCase();
+  let currentTime = moment().format('LT'); 
+
+
+  return(
+  <View style={styles.navigation}>
+  <Text style={{color:'white', fontSize: 25,marginTop: 30}}>good afternoon, neumont</Text>
+  <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>{currentDay}, {currentDate} </Text>
+  <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>{currentTime}</Text>
+  <Text style={{color: 'white', fontSize: 25, marginTop: 50}}>what would you</Text> 
+  <Text style={{color: 'white', fontSize: 25}}>like to do?</Text>
+  <View style={{marginTop: 40}}>
+    <TouchableOpacity style={styles.touchable}title="Submit" >
+      <Text style={styles.touchableColor}>journal</Text>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.touchable}title="Submit">
+      <Text style={styles.touchableColor}>calendar</Text>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.touchable}title="Submit">
+      <Text style={styles.touchableColor}>alarm/clock</Text>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.touchable}title="Submit">
+      <Text style={styles.touchableColor}>relax</Text>
+    </TouchableOpacity>
+    <StatusBar style="auto" />
+  </View>
+  </View>
+  );
+  
+}
+const ClockPage = () =>{
+  let currentTime = moment().format('LTS');
+  return(
+  
+    <View style={styles.clock}>
+      <Text style={{color:'white', fontSize: 50,marginTop: 225}}>{currentTime}</Text>
+      <View style={{marginTop: 40}}>
+        <TouchableOpacity style={styles.touchableGreen}title="Submit" >
+          <Text style={styles.touchableColor}>start</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchable}title="Submit">
+          <Text style={styles.touchableColor}>stop</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.touchableBlue}title="Submit">
+          <Text style={styles.touchableColor}>pause</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+    );
+}
+const CalendarPage = () =>{
+  return(
+  
+    <View style={styles.calendar}>
+      
+     
+    </View>
+    );
+}
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -105,18 +151,6 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     
   },
-  navigationContainer:{
-
-  },
-  navigation:{
-    height:700,
-    width: 350,
-    backgroundColor: '#9AD1FE',
-    borderRadius: 15,
-    display: 'flex',
-    alignItems: 'center'
-  
-  },
   loginform:{
     marginTop:30,
     display: 'flex',
@@ -126,11 +160,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     padding: 10
-
-    
-  },
-  paragraph:{
-    
   },
   textinput:{
     backgroundColor: '#fff',
@@ -140,6 +169,30 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     borderColor: '#B3D0CF',
     borderWidth: 2
+  }, 
+   navigation:{
+    height:700,
+    width: 350,
+    backgroundColor: '#9AD1FE',
+    borderRadius: 15,
+    display: 'flex',
+    alignItems: 'center'
+  },
+  clock:{
+      height:700,
+      width: 350,
+      backgroundColor: '#e0e7da',
+      borderRadius: 15,
+      display: 'flex',
+      alignItems: 'center'
+  },
+  calendar:{
+      height:700,
+      width: 350,
+      backgroundColor: '#e2856e',
+      borderRadius: 15,
+      display: 'flex',
+      alignItems: 'center'
   },
   touchable:{
     backgroundColor: '#e2856e',
@@ -150,11 +203,28 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     alignSelf: 'center',
     marginTop: 10,
-    
-    
-    
+},
+touchableGreen:{
+  backgroundColor: '#b3d0cf',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 50,
+  width: 100,
+  borderRadius: 13,
+  alignSelf: 'center',
+  marginTop: 10,
+},
+touchableBlue:{
+  backgroundColor: '#9ad1fe',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 50,
+  width: 100,
+  borderRadius: 13,
+  alignSelf: 'center',
+  marginTop: 10,
+},
 
-  },
   touchableColor:{
     color: '#fff'
   }
