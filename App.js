@@ -166,16 +166,16 @@ function BtnComponent(props){
   return(
     <View style={{marginTop: 40}}>
     
-      <TouchableOpacity style={styles.touchableGreen}title="Submit" >
-        <Text style={styles.touchableColor} onPress={props.start}>start</Text>
+      <TouchableOpacity style={styles.touchableGreen}title="Submit" onPress={props.start}>
+        <Text style={styles.touchableColor} >start</Text>
       </TouchableOpacity>
   
     
-    <TouchableOpacity style={styles.touchable}title="Submit">
-      <Text style={styles.touchableColor} onPress={props.stop}>stop</Text>
+    <TouchableOpacity style={styles.touchable}title="Submit" onPress={props.stop}>
+      <Text style={styles.touchableColor} >stop</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.touchableBlue}title="Submit">
-      <Text style={styles.touchableColor} onPress={props.reset}>reset</Text>
+    <TouchableOpacity style={styles.touchableBlue}title="Submit" onPress={props.reset}>
+      <Text style={styles.touchableColor} >reset</Text>
     </TouchableOpacity>
   </View>
   );
