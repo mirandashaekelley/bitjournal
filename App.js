@@ -1,37 +1,43 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Alert, Button, TouchableOpacity} from 'react-native';
 import { useController, useForm } from 'react-hook-form';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import moment from 'moment';
+import { Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
 //npm i {important to download or it won't work}
 //install react-hook-form
 //expo install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
 //npm install @react-navigation/native @react-navigation/stack
 //https://swapi.dev/api/
+//npm install --save react-native-calendars
 const Stack = createStackNavigator();
+
 
 
 export default function App() {
   return (
-    <NavigationContainer>
-    <View style={styles.container}>
-      <FrontPage/>
-      
-    </View>
-    </NavigationContainer>
+
+      <View style={styles.container}>
+        <ClockPage/>
+      </View>
   );
 }
+//Front Page and it's functions/events
 const FrontPage = () => {
   return(
   
   <View style={styles.journal}>
-  <Text style={{color:'white', fontSize: 40, marginTop: -100}}>bitjournal</Text>
-  <Form/>
-  <StatusBar style="auto" />
+    <Text style={{
+      color:'white',
+      fontSize: 40, 
+      marginTop: -100
+      }}>bitjournal</Text>
+    <Form/>
+    <StatusBar style="auto" />
   </View>
   );
   
@@ -54,11 +60,11 @@ const Input = ({name, control}) => {
   return (
     <View style={styles.loginform}>
       <View style={styles.loginContainer}> 
-        <Text style={styles.paragraph}>username: </Text>
+        <Text style={{color:'white', fontSize: 20}}>username: </Text>
         <TextInput style={styles.textinput} name="username" control={control}/>
       </View>
       <View style={styles.loginContainer}>
-        <Text style={styles.paragraph}>password: </Text>
+        <Text style={{color:'white', fontSize: 20}}>password: </Text>
         <TextInput style={styles.textinput} name="password" control={control}/>
       </View>
     <TouchableOpacity style={styles.touchable}title="Submit"  onPress={handleSubmit(onSubmit)}>
@@ -67,7 +73,7 @@ const Input = ({name, control}) => {
     </View>
   );
 }
-
+//Navigation
 const NavigationPage = () => {
   let currentDay = moment().format('dddd');
   currentDay = currentDay.toLowerCase();
@@ -78,55 +84,115 @@ const NavigationPage = () => {
 
   return(
   <View style={styles.navigation}>
-  <Text style={{color:'white', fontSize: 25,marginTop: 30}}>good afternoon, neumont</Text>
-  <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>{currentDay}, {currentDate} </Text>
-  <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>{currentTime}</Text>
-  <Text style={{color: 'white', fontSize: 25, marginTop: 50}}>what would you</Text> 
-  <Text style={{color: 'white', fontSize: 25}}>like to do?</Text>
-  <View style={{marginTop: 40}}>
-    <TouchableOpacity style={styles.touchable}title="Submit" >
-      <Text style={styles.touchableColor}>journal</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.touchable}title="Submit">
-      <Text style={styles.touchableColor}>calendar</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.touchable}title="Submit">
-      <Text style={styles.touchableColor}>alarm/clock</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.touchable}title="Submit">
-      <Text style={styles.touchableColor}>relax</Text>
-    </TouchableOpacity>
-    <StatusBar style="auto" />
-  </View>
+    <Text style={{color:'white', fontSize: 25,marginTop: 30}}>good afternoon, neumont</Text>
+    <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>{currentDay}, {currentDate} </Text>
+    <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>{currentTime}</Text>
+    <Text style={{color: 'white', fontSize: 25, marginTop: 50}}>what would you</Text> 
+    <Text style={{color: 'white', fontSize: 25}}>like to do?</Text>
+    <View style={{marginTop: 40}}>
+      <TouchableOpacity style={styles.touchable}title="Submit" >
+        <Text style={styles.touchableColor}>journal</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.touchable}title="Submit">
+        <Text style={styles.touchableColor}>calendar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.touchable}title="Submit">
+        <Text style={styles.touchableColor}>alarm/clock</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.touchable}title="Submit">
+        <Text style={styles.touchableColor}>relax</Text>
+      </TouchableOpacity>
+      <StatusBar style="auto" />
+    </View>
   </View>
   );
   
 }
 const ClockPage = () =>{
-  let currentTime = moment().format('LTS');
+  const [time, setTime] = useState({ms: 0, s:0, m:0, h:0});
+  const [interv, setInterv] = useState();
+  const [status, setStatus] = useState(0);
+  const start = () => {
+    run();
+    setStatus(1);
+    setInterv(setInterval(run,10));
+  };
+  var updatedMs = time.ms, updatedS = time.s, updatedM = time.m, updatedH = time.h;
+  
+  const run = () =>{
+    if(updatedM === 60){
+      updatedH++;
+      updatedM = 0;
+    }
+    if(updatedS === 60){
+      updatedM++;
+      updatedS = 0;
+    }
+    if(updatedMs === 100){
+      updatedS++;
+      updatedMs = 0;
+    }
+    updatedMs++;
+    return setTime({ms: updatedMs, s:updatedS, m:updatedM, h:updatedH});
+  };
+  const stop = () =>{
+    clearInterval(interv);
+    setStatus(2);
+  };
+  const reset = () =>{
+    clearInterval(interv);
+    setStatus(0);
+    setTime({ms: 0, s:0, m:0, h:0});
+  };
   return(
   
     <View style={styles.clock}>
-      <Text style={{color:'white', fontSize: 50,marginTop: 225}}>{currentTime}</Text>
-      <View style={{marginTop: 40}}>
-        <TouchableOpacity style={styles.touchableGreen}title="Submit" >
-          <Text style={styles.touchableColor}>start</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.touchable}title="Submit">
-          <Text style={styles.touchableColor}>stop</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.touchableBlue}title="Submit">
-          <Text style={styles.touchableColor}>pause</Text>
-        </TouchableOpacity>
-      </View>
+      <DisplayComponent time={time}/>
+      <BtnComponent status={status} stop={stop} start={start} reset={reset}/>
     </View>
     );
 }
+function DisplayComponent(props){
+  return(
+    <View style={{display:'flex', flexDirection:'row', marginTop: 200}}>
+    <Text style={{color: 'white', fontSize: 40}}>{(props.time.h >= 10)? props.time.h : "0" + props.time.h}:</Text>
+    <Text style={{color: 'white', fontSize: 40}}>{(props.time.m >= 10)? props.time.m : "0" + props.time.h}:</Text>
+    <Text style={{color: 'white', fontSize: 40}}>{(props.time.h >= 10)? props.time.s : "0" + props.time.s}:</Text>
+    <Text style={{color: 'white', fontSize: 40}}>{(props.time.h >= 10)? props.time.ms : "0" + props.time.ms}</Text>
+    </View>
+  );
+}
+function BtnComponent(props){
+  return(
+    <View style={{marginTop: 40}}>
+    
+      <TouchableOpacity style={styles.touchableGreen}title="Submit" >
+        <Text style={styles.touchableColor} onPress={props.start}>start</Text>
+      </TouchableOpacity>
+  
+    
+    <TouchableOpacity style={styles.touchable}title="Submit">
+      <Text style={styles.touchableColor} onPress={props.stop}>stop</Text>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.touchableBlue}title="Submit">
+      <Text style={styles.touchableColor} onPress={props.reset}>reset</Text>
+    </TouchableOpacity>
+  </View>
+  );
+}
+
 const CalendarPage = () =>{
+ let currentDate = moment().format();
   return(
   
     <View style={styles.calendar}>
-      
+      <CalendarList style={{height: 300}}
+      horizontal={true}
+      calendarWidth={350}
+      showScrollIndicator={true}
+      pagingEnabled={true}
+      onDayPress={(day)=>{console.log('day pressed')}}
+      />
      
     </View>
     );
