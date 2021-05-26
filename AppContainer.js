@@ -5,7 +5,6 @@ import { useController, useForm } from 'react-hook-form';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import 'react-native-gesture-handler';
 import moment from 'moment';
 import { Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
@@ -14,27 +13,21 @@ import { Calendar, CalendarList, Agenda} from 'react-native-calendars';
 //expo install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
 //https://swapi.dev/api/
 //npm install --save react-native-calendars
-//npm install @react-navigation/native
-//npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
-const Stack = createStackNavigator();
+
+
 //navigation
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={FrontPage}/>
-        <Stack.Screen name="Navigation" component={NavigationPage}/>
-        <Stack.Screen name="Clock" component={ClockPage}/>
-        <Stack.Screen name="Calendar" component={CalendarPage}/>
-        
-      </Stack.Navigator>
-    </NavigationContainer>
+
+      <View style={styles.container}>
+        <CalendarPage/>
+      </View>
   );
 }
 //Front Page and it's functions/events
-function FrontPage ({navigation}){
+const FrontPage = () => {
   return(
-  <View style={styles.container}>
+  
   <View style={styles.journal}>
     <Text style={{
       color:'white',
@@ -42,11 +35,8 @@ function FrontPage ({navigation}){
       marginTop: -100
       }}>bitjournal</Text>
     <Form/>
-    <TouchableOpacity style={styles.touchable}title="Submit"  onPress={() => navigation.navigate('Navigation')}>
-      <Text style={styles.touchableColor}>Next</Text>
-    </TouchableOpacity>
     <StatusBar style="auto" />
-  </View></View>
+  </View>
   );
   
 }
@@ -60,7 +50,7 @@ const Input = ({name, control}) => {
      <TextInput value ={field.value} onChangeText={field.onChange} style={styles.input}/>
    );
  };
-function Form() {
+ function Form() {
   const {control, handleSubmit} = useForm();
   const onSubmit = (data) => Alert.alert
   (JSON.stringify(data));
@@ -82,7 +72,7 @@ function Form() {
   );
 }
 //Navigation
-function NavigationPage({navigation}) {
+const NavigationPage = () => {
   let currentDay = moment().format('dddd');
   currentDay = currentDay.toLowerCase();
   let currentDate = moment().format('ll');
@@ -91,7 +81,6 @@ function NavigationPage({navigation}) {
 
 
   return(
-  <View style={styles.container}>
   <View style={styles.navigation}>
     <Text style={{color:'white', fontSize: 25,marginTop: 30}}>good afternoon, neumont</Text>
     <Text style={{color: 'white', fontSize: 25, marginTop: 10}}>{currentDay}, {currentDate} </Text>
@@ -102,18 +91,17 @@ function NavigationPage({navigation}) {
       <TouchableOpacity style={styles.touchable}title="Submit" >
         <Text style={styles.touchableColor}>journal</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.touchable}title="Submit" onPress={() => navigation.navigate('Calendar')}>
+      <TouchableOpacity style={styles.touchable}title="Submit">
         <Text style={styles.touchableColor}>calendar</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.touchable}title="Submit" onPress={() => navigation.navigate('Clock')}>
-        <Text style={styles.touchableColor}>timer</Text>
+      <TouchableOpacity style={styles.touchable}title="Submit">
+        <Text style={styles.touchableColor}>alarm/clock</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.touchable}title="Submit">
         <Text style={styles.touchableColor}>relax</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
-  </View>
   </View>
   );
   
@@ -155,11 +143,10 @@ const ClockPage = () =>{
     setTime({ms: 0, s:0, m:0, h:0});
   };
   return(
-    <View style={styles.container}>
+  
     <View style={styles.clock}>
       <DisplayComponent time={time}/>
       <BtnComponent status={status} stop={stop} start={start} reset={reset}/>
-    </View>
     </View>
     );
 }
@@ -195,7 +182,7 @@ function BtnComponent(props){
 const CalendarPage = () =>{
  let currentDate = moment().format();
   return(
-  <View style={styles.container}>
+  
     <View style={styles.calendar}>
       <CalendarList style={{height: 300}}
       horizontal={true}
@@ -206,7 +193,6 @@ const CalendarPage = () =>{
       />
      
     </View>
-    </View>
     );
 }
 
@@ -214,11 +200,10 @@ const CalendarPage = () =>{
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex', 
-    flex:1,
-    alignItems:'center', 
+    flex: 1,
     backgroundColor: '#FEDE85',
-
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   journal: {
     height:700,
@@ -228,7 +213,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent:'center',
-    marginTop: 40
     
   },
   loginform:{
@@ -256,8 +240,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#9AD1FE',
     borderRadius: 15,
     display: 'flex',
-    alignItems: 'center',
-    marginTop: 40
+    alignItems: 'center'
   },
   clock:{
       height:700,
@@ -265,8 +248,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#e0e7da',
       borderRadius: 15,
       display: 'flex',
-      alignItems: 'center',
-      marginTop: 40
+      alignItems: 'center'
   },
   calendar:{
       height:700,
@@ -274,8 +256,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#e2856e',
       borderRadius: 15,
       display: 'flex',
-      alignItems: 'center',
-      marginTop: 40
+      alignItems: 'center'
   },
   touchable:{
     backgroundColor: '#e2856e',
