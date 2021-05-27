@@ -16,7 +16,7 @@ import { Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
 
 //navigation
-export default function App() {
+export default function TodoListFunction() {
   return (
 
       <View style={styles.container}>

@@ -5,10 +5,9 @@ import { useController, useForm } from 'react-hook-form';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import 'react-native-gesture-handler';
 import moment from 'moment';
 import { Calendar, CalendarList, Agenda} from 'react-native-calendars';
-
+import TodoListFunction from './pages/TodoList';
 //npm i {important to download or it won't work}
 //install react-hook-form
 //expo install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
@@ -26,6 +25,7 @@ export default function App() {
         <Stack.Screen name="Navigation" component={NavigationPage}/>
         <Stack.Screen name="Clock" component={ClockPage}/>
         <Stack.Screen name="Calendar" component={CalendarPage}/>
+        <Stack.Screen name="Todo" component={TodoPage}/>
         
       </Stack.Navigator>
     </NavigationContainer>
@@ -108,8 +108,8 @@ function NavigationPage({navigation}) {
       <TouchableOpacity style={styles.touchable}title="Submit" onPress={() => navigation.navigate('Clock')}>
         <Text style={styles.touchableColor}>timer</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.touchable}title="Submit">
-        <Text style={styles.touchableColor}>relax</Text>
+      <TouchableOpacity style={styles.touchable}title="Submit"onPress={() => navigation.navigate('Todo')}>
+        <Text style={styles.touchableColor}>Todo List</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
@@ -210,6 +210,14 @@ const CalendarPage = () =>{
     );
 }
 
+function TodoPage(){
+  return(
+    <View styles={styles.container}>
+        <TodoListFunction/>   
+    </View>
+  );
+}
+
 
 
 const styles = StyleSheet.create({
@@ -276,6 +284,15 @@ const styles = StyleSheet.create({
       display: 'flex',
       alignItems: 'center',
       marginTop: 40
+  },
+  todo:{
+    height:700,
+    width: 350,
+    backgroundColor: '#e2856e',
+    borderRadius: 15,
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 40
   },
   touchable:{
     backgroundColor: '#e2856e',
